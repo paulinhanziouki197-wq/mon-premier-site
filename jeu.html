@@ -1,4 +1,76 @@
-<!DOCTYPE html>
+// NAVIGATION
+function scrollVers(id){
+    document.getElementById(id).scrollIntoView({behavior:"smooth"});
+}
+
+// ===== USER SYSTEM =====
+function register(){
+    localStorage.setItem("user", newUser.value);
+    localStorage.setItem("pass", newPass.value);
+    alert("Compte créé !");
+}
+
+function login(){
+    if(user.value === localStorage.getItem("user") &&
+       pass.value === localStorage.getItem("pass")){
+        localStorage.setItem("connecte","oui");
+        res.innerText="Connexion réussie";
+    } else {
+        res.innerText="Erreur";
+    }
+}
+
+function logout(){
+    localStorage.removeItem("connecte");
+    location.href="index.html";
+}
+
+// PROFIL
+if(localStorage.getItem("connecte")){
+    if(document.getElementById("profilNom")){
+        profilNom.innerText = "Bienvenue " + localStorage.getItem("user");
+    }
+}
+
+// ===== MINI JEU MARIO =====
+const canvas = document.getElementById("game");
+if(canvas){
+const ctx = canvas.getContext("2d");
+
+let player = {x:50,y:200,w:30,h:30,vy:0,jump:false};
+let gravity = 0.5;
+
+document.addEventListener("keydown", e=>{
+    if(e.code==="Space" && !player.jump){
+        player.vy = -10;
+        player.jump = true;
+    }
+});
+
+function loop(){
+    ctx.clearRect(0,0,600,300);
+
+    // sol
+    ctx.fillStyle="green";
+    ctx.fillRect(0,250,600,50);
+
+    // joueur
+    ctx.fillStyle="red";
+    ctx.fillRect(player.x,player.y,player.w,player.h);
+
+    // gravité
+    player.vy += gravity;
+    player.y += player.vy;
+
+    if(player.y >= 220){
+        player.y = 220;
+        player.jump = false;
+    }
+
+    requestAnimationFrame(loop);
+}
+loop();
+}<!DOCTYPE html>
 <html>
 <head>
 <link rel="stylesheet" href="style.css">
@@ -6,25 +78,8 @@
 
 <body class="hero">
 
-<h2>🎮 Devine le nombre</h2>
-<p>Entre 1 et 20</p>
-
-<input type="number" id="nombre">
-<button onclick="jouer()">Jouer</button>
-
-<p id="resultatJeu"></p>
-
-<script src="script.js"></script>
-</body>
-</html><!DOCTYPE html>
-<html>
-<head><link rel="stylesheet" href="style.css"></head>
-<body class="hero">
-
-<h2>🎮 Jeu</h2>
-<input id="nombre">
-<button onclick="jouer()">Jouer</button>
-<p id="resJeu"></p>
+<h2>🎮 Mini Mario</h2>
+<canvas id="game" width="600" height="300"></canvas>
 
 <script src="script.js"></script>
 </body>

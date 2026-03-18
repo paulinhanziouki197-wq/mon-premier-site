@@ -1,86 +1,70 @@
-// scroll bouton
-function scrollBas() {
-    window.scrollTo({
-        top: window.innerHeight,
+// SCROLL VERS SECTION
+function scrollVers(id) {
+    document.getElementById(id).scrollIntoView({
         behavior: "smooth"
     });
 }
 
-// animation scroll
-window.addEventListener("scroll", () => {
-    document.querySelectorAll(".fade").forEach(el => {
-        if(el.getBoundingClientRect().top < window.innerHeight - 100) {
-            el.classList.add("visible");
-        }
-    });
-});
+// BOUTON PROJET
+function alerteProjet() {
+    alert("Ce projet est en cours de développement 🚀");
+}
 
-// effet curseur dynamique
-document.addEventListener("mousemove", e => {
-    document.body.style.backgroundPosition = e.pageX/50 + "px " + e.pageY/50 + "px";
-});let secret = Math.floor(Math.random() * 20) + 1;
+// CHANGER COULEUR
+function changerTheme() {
+    document.body.style.background = "linear-gradient(135deg, #ff512f, #dd2476)";
+}
 
-function jouer() {
-    let n = document.getElementById("nombre").value;
+// FORMULAIRE CONTACT
+function envoyerMessage() {
+    let nom = document.getElementById("nom").value;
+    let msg = document.getElementById("message").value;
 
-    if(n == secret) {
-        document.getElementById("resultatJeu").innerText = "🎉 Gagné !";
-    } else if(n < secret) {
-        document.getElementById("resultatJeu").innerText = "Plus grand ⬆️";
+    if(nom === "" || msg === "") {
+        document.getElementById("confirmation").innerText = "Remplis tous les champs ❌";
     } else {
-        document.getElementById("resultatJeu").innerText = "Plus petit ⬇️";
+        document.getElementById("confirmation").innerText =
+        "Merci " + nom + " ! Ton message a été envoyé ✅";
     }
-}// DARK MODE
-function toggleDark(){
-    document.body.classList.toggle("dark");
-}
+}<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>DevSite Ultimate</title>
+<link rel="stylesheet" href="style.css">
+</head>
 
-// VISITES
-let v = localStorage.getItem("visites") || 0;
-v++;
-localStorage.setItem("visites", v);
-if(document.getElementById("visites"))
-document.getElementById("visites").innerText = v;
+<body>
 
-// INSCRIPTION
-function register(){
-    localStorage.setItem("user", newUser.value);
-    localStorage.setItem("pass", newPass.value);
-    alert("Compte créé");
-}
+<nav>
+    <h1>🚀 DevSite</h1>
+    <div>
+        <a href="index.html">Accueil</a>
+        <a href="login.html">Connexion</a>
+        <a href="register.html">Inscription</a>
+        <a href="profil.html">Profil</a>
+        <a href="jeu.html">Jeu 🎮</a>
+    </div>
+</nav>
 
-// LOGIN
-function login(){
-    if(user.value === localStorage.getItem("user") &&
-       pass.value === localStorage.getItem("pass")){
-        localStorage.setItem("connecte","oui");
-        res.innerText="Connecté";
-    } else {
-        res.innerText="Erreur";
-    }
-}
+<header class="hero">
+    <h2>Bienvenue sur mon univers 💻</h2>
+    <p>Je crée des sites et des jeux interactifs.</p>
+    <button onclick="scrollVers('projets')">Explorer</button>
+</header>
 
-// PROFIL
-if(localStorage.getItem("connecte")){
-    if(document.getElementById("profilNom"))
-    profilNom.innerText = localStorage.getItem("user");
-}
+<section id="projets" class="section">
+    <h2>💡 Mes projets</h2>
+    <p>
+        Je développe des applications web modernes avec des interactions,
+        des animations et des systèmes utilisateurs.
+    </p>
+</section>
 
-// JEU
-let secret = Math.floor(Math.random()*10)+1;
-function jouer(){
-    resJeu.innerText = (nombre.value == secret) ? "Gagné 🎉" : "Perdu 😢";
-}
+<footer>
+    <p>© 2026 DevSite</p>
+</footer>
 
-// CONTACT
-function envoyer(){
-    alert("Message envoyé !");
-}
-
-// API CITATION
-fetch("https://api.quotable.io/random")
-.then(res=>res.json())
-.then(data=>{
-    if(document.getElementById("citation"))
-    citation.innerText = data.content;
-});
+<script src="script.js"></script>
+</body>
+</html>
